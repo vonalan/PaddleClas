@@ -1,4 +1,4 @@
-export PYTHONPATH=/data2/lijinde/Programs/PaddleClas:$PYTHONPATH
+export PYTHONPATH=/data2/${1}/Programs/PaddleClas:$PYTHONPATH
 
 prefix=ResNet50_vd_10w_pretrained
 

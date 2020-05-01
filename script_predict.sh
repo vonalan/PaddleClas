@@ -1,10 +1,10 @@
-export PYTHONPATH=/data2/lijinde/Programs/PaddleClas:$PYTHONPATH
+export PYTHONPATH=/data2/{1}/Programs/PaddleClas:$PYTHONPATH
 
 prefix=ResNet50_vd_10w_pretrained
 
 python tools/infer/predict.py \
-    -i=${1} \
+    -i=${2} \
     -m=deploy/${prefix}/model \
     -p=deploy/${prefix}/params \
-    --use_gpu=0 \
-    --use_tensorrt=False
+    --use_gpu=1 \
+    --use_tensorrt=False \
