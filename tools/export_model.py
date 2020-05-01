@@ -25,6 +25,7 @@ def parse_args():
     parser.add_argument("-p", "--pretrained_model", type=str)
     parser.add_argument("-o", "--output_path", type=str)
     parser.add_argument("--class_dim", type=int, default=1000)
+    parser.add_argument("--include_top", type=int, default=1)
 
     return parser.parse_args()
 
@@ -35,12 +36,13 @@ def create_input():
     return image
 
 
-def create_model(args, model, input, class_dim=1000):
+def create_model(args, model, input, class_dim=1000, include_top=True):
     if args.model == "GoogLeNet":
-        out, _, _ = model.net(input=input, class_dim=class_dim)
+        out, _, _ = model.net(input=input, class_dim=class_dim, include_top=include_top)
     else:
-        out = model.net(input=input, class_dim=class_dim)
-        out = fluid.layers.softmax(out)
+        out = model.net(input=input, class_dim=class_dim, include_top=include_top)
+        if include_top: 
+            out = fluid.layers.softmax(out)
     return out
 
 
@@ -58,7 +60,7 @@ def main():
     with fluid.program_guard(infer_prog, startup_prog):
         with fluid.unique_name.guard():
             image = create_input()
-            out = create_model(args, model, image, class_dim=args.class_dim)
+            out = create_model(args, model, image, class_dim=args.class_dim, include_top=args.include_top)
 
     infer_prog = infer_prog.clone(for_test=True)
     fluid.load(

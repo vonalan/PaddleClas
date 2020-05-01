@@ -44,7 +44,7 @@ class ResNet():
             len(self.lr_mult_list))
         self.curr_stage = 0
 
-    def net(self, input, class_dim=1000):
+    def net(self, input, class_dim=1000, include_top=True):
         is_3x3 = self.is_3x3
         layers = self.layers
         supported_layers = [18, 34, 50, 101, 152, 200]
@@ -132,13 +132,16 @@ class ResNet():
             input=conv, pool_type='avg', global_pooling=True)
         stdv = 1.0 / math.sqrt(pool.shape[1] * 1.0)
 
-        out = fluid.layers.fc(
-            input=pool,
-            size=class_dim,
-            param_attr=fluid.param_attr.ParamAttr(
-                name="fc_0.w_0" + self.postfix_name,
-                initializer=fluid.initializer.Uniform(-stdv, stdv)),
-            bias_attr=ParamAttr(name="fc_0.b_0" + self.postfix_name))
+        if include_top: 
+            out = fluid.layers.fc(
+                input=pool,
+                size=class_dim,
+                param_attr=fluid.param_attr.ParamAttr(
+                    name="fc_0.w_0" + self.postfix_name,
+                    initializer=fluid.initializer.Uniform(-stdv, stdv)),
+                bias_attr=ParamAttr(name="fc_0.b_0" + self.postfix_name))
+        else:
+            out = pool 
 
         return out
 

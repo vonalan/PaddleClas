@@ -13,10 +13,13 @@
 # limitations under the License.
 
 import argparse
-import utils
 import numpy as np
 import logging
 import time
+
+import os, sys 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import utils
 
 from paddle.fluid.core import AnalysisConfig
 from paddle.fluid.core import create_paddle_predictor
@@ -110,9 +113,11 @@ def main():
     predictor = create_predictor(args)
 
     input_names = predictor.get_input_names()
+    print(input_names)
     input_tensor = predictor.get_input_tensor(input_names[0])
 
     output_names = predictor.get_output_names()
+    print(output_names)
     output_tensor = predictor.get_output_tensor(output_names[0])
 
     test_num = 500
@@ -127,7 +132,9 @@ def main():
         predictor.zero_copy_run()
 
         output = output_tensor.copy_to_cpu()
+        print(output.shape, output.min(), output.max(), output.mean())
         output = output.flatten()
+        print(output.shape, output.min(), output.max(), output.mean())
         cls = np.argmax(output)
         score = output[cls]
         logger.info("class: {0}".format(cls))
