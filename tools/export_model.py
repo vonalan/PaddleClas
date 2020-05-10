@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # Copyright (c) 2020 PaddlePaddle Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -75,6 +77,11 @@ def main():
         model_filename='model',
         params_filename='params')
 
+    # import os 
+    # for name in os.listdir(args.pretrained_model):
+    #     params = np.array(fluid.global_scope().find_var(name).get_tensor()) #.astype(np.float32)
+    #     print(name, params.shape)
+    #     np.save('mxnet/npz/{}'.format(name), params)
 
 if __name__ == "__main__":
     main()
