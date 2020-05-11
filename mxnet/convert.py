@@ -3,10 +3,10 @@
 '''
 convert pp model ResNet50_vd_10w_pretrained mxnet: 
     1. save parameters with numpy in ../tools/export_model.py 
-    2. drop fc layer and fc op in gluoncv.model_zoo.resnetv1b.py 
+    2. drop layers after avgpool in gluoncv.model_zoo.resnetv1b.py 
     3. convert parameters to gluon and symbol 
     4. check the converted parameters 
-    5. recover fc layer and fc op in gluoncv.model_zoo.resnetv1b.py 
+    5. recover layers after avgpool in gluoncv.model_zoo.resnetv1b.py 
 '''
 
 import numpy as np 

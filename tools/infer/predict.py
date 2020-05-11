@@ -133,6 +133,7 @@ def main():
 
         output = output_tensor.copy_to_cpu()
         print(output.shape, output.min(), output.max(), output.mean())
+        np.save('pp-{}'.format(os.path.basename(args.image_file)), output)
         output = output.flatten()
         print(output.shape, output.min(), output.max(), output.mean())
         cls = np.argmax(output)

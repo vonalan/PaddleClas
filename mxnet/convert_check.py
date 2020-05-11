@@ -52,3 +52,4 @@ mod.forward(Batch([mx.nd.array(xs)]))
 es = mod.get_outputs()[0]
 es = es.asnumpy() 
 print(es.shape, es.min(), es.max(), es.mean())
+np.save('mxnet-{}'.format(os.path.basename(config.image_file)), es)
